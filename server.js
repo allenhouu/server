@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
     });
 });
 
+const users = [];
+
 app.post('/', (req, res) => {
     const {name, email, password} = req.body;
     if (!name || !email || !password) {
@@ -25,7 +27,6 @@ app.post('/', (req, res) => {
     }
 
     let nextUserId;
-    let users;
     const newUser = {id: nextUserId++, name, email, password};
 
     users.push(newUser);
@@ -37,8 +38,6 @@ app.post('/', (req, res) => {
 app.put('/:id', (req, res) => {
     const userId = parseInt(req.params.id);
     const { name, email, password } = req.body;
-
-    let users;
     const userIndex = users.findIndex(u => u.id === userId);
 
     if (userIndex === -1)
