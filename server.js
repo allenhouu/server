@@ -32,7 +32,7 @@ app.post('/', (req, res) => {
 
     users.push(newUser);
     console.log('User created: ' + newUser);
-    res.status(201).json(newUser);
+    res.status(201).json(users);
 })
 
 
