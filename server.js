@@ -10,11 +10,13 @@ app.use(cors({
 app.use(bodyParser.json());
 const port = 3000;
 
-const message = "";
 
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+})
 app.get('/', (req, res) => {
     res.json({
-        data: message
+        data: users
     });
 });
 
@@ -26,8 +28,7 @@ app.post('/', (req, res) => {
         return res.status(400).send('Name and email are required');
     }
 
-    let nextUserId;
-    const newUser = {id: nextUserId++, name, email, password};
+    const newUser = {name, email, password};
 
     users.push(newUser);
     console.log('User created: ' + newUser);
@@ -35,18 +36,31 @@ app.post('/', (req, res) => {
 })
 
 
-app.put('/:id', (req, res) => {
-    const userId = parseInt(req.params.id);
+app.put('/:index', (req, res) => {
+    const userIndex = parseInt(req.params.index);
     const { name, email, password } = req.body;
-    const userIndex = users.findIndex(u => u.id === userId);
 
     if (userIndex === -1)
     {
         return res.status(404).send('User not found.');
     }
 
-    users[userIndex] = {...users[userIndex], name, email, password};
+    users[userIndex] = {name, email, password};
     console.log('User updated:', users[userIndex]);
+
+    res.status(200).json(users[userIndex]);
+})
+
+app.delete('/:index', (req, res) => {
+    const userIndex = parseInt(req.params.index);
+
+    if (userIndex === -1)
+    {
+        return res.status(404).send('User not found.');
+    }
+
+    users.splice(userIndex, 1);
+    console.log('User deleted.');
 
     res.status(200).json(users[userIndex]);
 })
