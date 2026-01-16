@@ -46,9 +46,9 @@ app.put('/:index', (req, res) => {
     }
 
     users[userIndex] = {name, email, password};
-    console.log('User updated:', users[userIndex]);
+    console.log('User updated:', users);
 
-    res.status(200).json(users[userIndex]);
+    res.status(200).json(users);
 })
 
 app.delete('/:index', (req, res) => {
@@ -56,11 +56,11 @@ app.delete('/:index', (req, res) => {
 
     if (userIndex === -1)
     {
-        return res.status(404).send('User not found.');
+        return res.status(400).send('User not found.');
     }
 
     users.splice(userIndex, 1);
     console.log('User deleted.');
 
-    res.status(200).json(users[userIndex]);
+    res.status(200).json(users);
 })
